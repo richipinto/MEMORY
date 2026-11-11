@@ -75,6 +75,8 @@ class WhereDuoGame {
               this.drawn_Card = null;
               this.matches++;
               this.encertsText.textContent = `Encerts: ${this.matches}`;
+              this.attempts++;
+              this.intentsText.textContent = `Intents: ${this.attempts}`;
 
               if (this.matches === this.numberOfCards) {
                 let msg = document.createElement("p");
