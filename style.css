@@ -1,0 +1,34 @@
+body {
+    background-color: #2196F3;
+}
+img {
+    transition: transform 0.5s;
+}
+p {
+    font-size: xx-large;
+    font-weight: bold;
+}
+.mostrar{
+    transform: rotateY(360deg);
+}
+.amagar{transform: rotateY(180deg);}
+
+
+.stats-intents {
+    grid-column: 1 / 4; /* O el cálculo que prefieras según tus columnas */
+    text-align: left;
+    font-weight: bold;
+}
+
+.stats-encerts {
+    grid-column: 4 / 7;
+    text-align: right;
+    font-weight: bold;
+}
+
+.win-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
