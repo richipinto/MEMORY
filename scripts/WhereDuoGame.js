@@ -65,7 +65,7 @@ class WhereDuoGame {
                 }, 1000);
                 this.attempts++;
                 this.intentsText.textContent = `Intents: ${this.attempts}`;
-              } else {
+              } else { 
                 this.drawn_Card = null;
                 this.matches++;
                 this.encertsText.textContent = `Encerts: ${this.matches}`;
