@@ -1,27 +1,38 @@
 body {
     background-color: #2196F3;
 }
+
 img {
     transition: transform 0.5s;
 }
+
 p {
     font-size: xx-large;
     font-weight: bold;
 }
-.mostrar{
+
+.mostrar {
     transform: rotateY(360deg);
 }
-.amagar{transform: rotateY(180deg);}
 
+.amagar {
+    transform: rotateY(180deg);
+}
+
+#game {
+    display: grid;
+    justify-content: center;
+    gap: 15px;
+}
 
 .stats-intents {
-    grid-column: 1 / 4; /* O el cálculo que prefieras según tus columnas */
+    grid-column: 1 / var(--col-mid);
     text-align: left;
     font-weight: bold;
 }
 
 .stats-encerts {
-    grid-column: 4 / 7;
+    grid-column: var(--col-mid) / -1;
     text-align: right;
     font-weight: bold;
 }

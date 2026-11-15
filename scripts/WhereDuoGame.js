@@ -17,31 +17,22 @@ class WhereDuoGame {
   constructor(div_for_game, number_cards) {
     this.container = document.getElementById(div_for_game);
     this.numberOfCards = number_cards;
-    if (!this.container) {
-      console.error(
-        `Error: No s'ha trobat el contenidor amb ID "${div_for_game}".`,
-      );
-      return;
-    } else if (
-      this.numberOfCards !== 8 &&
-      this.numberOfCards !== 10 &&
-      this.numberOfCards !== 12
-    ) {
-      console.error(
-        `Error: El nombre de cartes ha de ser de 8, 10 o 12 i has proporcionat: ${number_cards}.`,
-      );
-      return;
-    }
+
+    let totalCols = this.numberOfCards / 2;
+    let colMid = Math.floor(totalCols / 2) + 1;
+
     this.container.style.display = "grid";
-    this.container.style.gridTemplateColumns = `repeat(${this.numberOfCards / 2}, 100px)`;
+    this.container.style.gridTemplateColumns = `repeat(${totalCols}, 100px)`;
     this.container.style.justifyContent = "center";
     this.container.style.gap = "15px";
+    this.container.style.setProperty("--col-mid", colMid);
 
     this.attempts = 0;
     this.matches = 0;
     this.drawn_Card = null;
     this.intentsText = "";
     this.encertsText = "";
+    this.bloquejarCarta = false;
 
     this.board = this.createBoard();
     this.startGame(this.board, this.attempts, this.matches);
@@ -56,33 +47,37 @@ class WhereDuoGame {
       this.container.appendChild(carta);
 
       carta.addEventListener("click", () => {
-        if (carta.getAttribute("src") === ruta) {
-          if (this.drawn_Card === null) {
-            this.mostrarCarta(carta);
-            this.drawn_Card = carta;
-          } else {
-            this.mostrarCarta(carta);
-            if (
-              this.drawn_Card.getAttribute("data-card") !==
-              carta.getAttribute("data-card")
-            ) {
-              setTimeout(() => {
-                this.amagarCartes(carta, ruta);
-              }, 1000);
-              this.attempts++;
-              this.intentsText.textContent = `Intents: ${this.attempts}`;
+        if (!this.bloquejarCarta) {
+          if (carta.getAttribute("src") === ruta) {
+            if (this.drawn_Card === null) {
+              this.mostrarCarta(carta);
+              this.drawn_Card = carta;
             } else {
-              this.drawn_Card = null;
-              this.matches++;
-              this.encertsText.textContent = `Encerts: ${this.matches}`;
-              this.attempts++;
-              this.intentsText.textContent = `Intents: ${this.attempts}`;
+              this.mostrarCarta(carta);
+              if (
+                this.drawn_Card.getAttribute("data-card") !==
+                carta.getAttribute("data-card")
+              ) {
+                this.bloquejarCarta = true;
+                setTimeout(() => {
+                  this.amagarCartes(carta, ruta);
+                  this.bloquejarCarta = false;
+                }, 1000);
+                this.attempts++;
+                this.intentsText.textContent = `Intents: ${this.attempts}`;
+              } else {
+                this.drawn_Card = null;
+                this.matches++;
+                this.encertsText.textContent = `Encerts: ${this.matches}`;
+                this.attempts++;
+                this.intentsText.textContent = `Intents: ${this.attempts}`;
 
-              if (this.matches === this.numberOfCards) {
-                let msg = document.createElement("p");
-                msg.textContent = "Felicitats, has trobat totes les parelles";
-                msg.classList.add("win-message");
-                this.container.appendChild(msg);
+                if (this.matches === this.numberOfCards) {
+                  let msg = document.createElement("p");
+                  msg.textContent = "Felicitats, has trobat totes les parelles";
+                  msg.classList.add("win-message");
+                  this.container.appendChild(msg);
+                }
               }
             }
           }
@@ -133,15 +128,6 @@ class WhereDuoGame {
       cartes[i] = cartes[j];
       cartes[j] = temp;
     }
-    // for (let i = 0; i < cartes.length-1; i++) {
-    //   while (cartes[i] === cartes[i + 1]) {
-    //     let j = Math.floor(Math.random() * cartes.length);
-    //     if (){}
-    //     let temp = cartes[i];
-    //     cartes[i] = cartes[j];
-    //     cartes[j] = temp;
-    //   }
-    // }
     return cartes;
   }
 }
